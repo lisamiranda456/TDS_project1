@@ -967,6 +967,21 @@ def run_task():
 
     return jsonify({"message": f"Task '{task}' started successfully"})
 
+# ✅ New endpoint to handle /read requests
+@app.route('/read', methods=['GET'])
+def read_file():
+    file_path = request.args.get("path")
+    if not file_path:
+        return jsonify({"error": "File path is required"}), 400
+    
+    try:
+        with open(file_path, "r") as f:
+            content = f.read()
+        return jsonify({"file": file_path, "content": content})
+    except FileNotFoundError:
+        return jsonify({"error": "File not found"}), 404
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
     

@@ -1009,7 +1009,8 @@ def run_task():
 @app.route('/read', methods=['GET'])
 def read_file():
     file_path = request.args.get("path")
-    print(os.pwd(),file_path)
+    file_path='/'+os.getcwd()+file_path
+    
     if not file_path:
         return jsonify({"error": "File path is required"}), 400
     

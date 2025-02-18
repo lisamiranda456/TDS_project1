@@ -25,16 +25,16 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/dataworks-project:latest .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/project1-project:latest .
 
       - name: Push Image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/dataworks-project:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/project1-project:latest
 
       - name: Run Docker Container from Docker Hub
         run: |
           docker run -d -p 8000:8000 --env LLMFOUNDRY_TOKEN="${{ secrets.LLMFOUNDRY_TOKEN }}" \
-          --name my-running-app ${{ secrets.DOCKER_HUB_USERNAME }}/dataworks-project:latest
+          --name my-running-app ${{ secrets.DOCKER_HUB_USERNAME }}/project1-project:latest
           sleep 10
 
       - name: Verify Container is Running

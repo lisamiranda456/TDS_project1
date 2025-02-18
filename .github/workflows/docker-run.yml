@@ -45,7 +45,8 @@ jobs:
       
       - name: Test API Endpoint (POST with Query Parameter)
         run: |
-          curl -X POST "http://localhost:8000/run?task=Format+/data/format.md+with+prettier+3.4.2" 
+          curl -X POST "http://localhost:8000/run?task=Extract+H1+titles+from+Markdown+files+in+/data/docs+and+save+to+/data/docs/index.json"
+ 
 
       - name: Stop & Remove Container
         if: always()

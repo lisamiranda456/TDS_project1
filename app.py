@@ -973,7 +973,7 @@ def read_file():
     file_path = request.args.get("path")
     if not file_path:
         return jsonify({"error": "File path is required"}), 400
-    
+    print("********",file_path)
     try:
         with open(file_path, "r") as f:
             content = f.read()

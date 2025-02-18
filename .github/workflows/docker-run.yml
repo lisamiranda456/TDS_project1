@@ -42,11 +42,20 @@ jobs:
           docker ps -a  # Check running containers
           docker logs my-running-app  # Check logs for issues
 
-      - name: Test API Endpoint
+      - name: Test API Endpoint (GET)
         run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"task": "Sort contacts in data/contacts.json and save to data/sorted-contacts.json"}' \
-          http://localhost:8000/run_task
+          curl -X GET "http://localhost:8000/run?task=Sort+contacts+in+data/contacts.json+and+save+to+data/sorted-contacts.json"
+
+      - name: Test API Endpoint (POST with Query Parameter)
+        run: |
+          curl -X POST "http://localhost:8000/run?task=Sort+contacts+in+data/contacts.json+and+save+to+data/sorted-contacts.json" \
+          -H "Content-Type: application/json"
+
+      - name: Test API Endpoint (POST with JSON Body)
+        run: |
+          curl -X POST "http://localhost:8000/run" \
+          -H "Content-Type: application/json" \
+           d '{"task": "Sort contacts in data/contacts.json and save to data/sorted-contacts.json"
 
       - name: Stop & Remove Container
         if: always()

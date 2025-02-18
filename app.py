@@ -953,27 +953,20 @@ tool_mapping = {
 }
 
 
-@app.route("/run_task", methods=["POST"])
+
+@app.route('/run', methods=['GET', 'POST'])
 def run_task():
-    # Extract JSON data from the POST request
-    data = request.get_json()
-    if not data or "task" not in data:
-        return jsonify({"error": "Missing 'task' in request data"}), 400
+    if request.method == 'GET':
+        task = request.args.get("task")  # Extract from URL query parameters
+    else:  # POST request
+        data = request.get_json()
+        task = data.get("task") if data else request.args.get("task")  # Allow both JSON and query
 
-    # Get the task from the request
-    task = data["task"]
-    print("task",task)
+    if not task:
+        return jsonify({"error": "Task parameter is required"}), 400
 
-    # Pass the task to query_gpt along with your tools (assumed to be defined elsewhere)
-    response = query_gpt(task, tools)
-    # Execute tool calls in the response:
-    print(";;;;;;;;;;;;;;;;;;;;;")
-    print(response)
-    results = execute_tool_calls(response, tool_mapping)
-    print("Execution results:", results)
+    return jsonify({"message": f"Task '{task}' started successfully"})
 
-    # Return the response as JSON
-    return jsonify(response)
 if __name__ == "__main__":
-     app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(host="0.0.0.0", port=8000)
     

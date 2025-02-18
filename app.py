@@ -23,7 +23,7 @@ os.makedirs(DATA_DIR, exist_ok=True)  # Ensure the directory exists
 
 # OpenAI Proxy details
 AIPROXY_URL = "http://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
-AIPROXY_TOKEN = os.getenv("LLMFOUNDRY_TOKEN", "missing-token")
+AIPROXY_TOKEN = os.getenv("AIPROXY_TOKEN", "missing-token")
 
 if AIPROXY_TOKEN == "missing-token":
     print("⚠️ WARNING: AIPROXY_TOKEN is missing. Authentication will fail!")

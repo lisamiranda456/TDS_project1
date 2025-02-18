@@ -28,7 +28,7 @@ AIPROXY_TOKEN = os.getenv("AIPROXY_TOKEN", "missing-token")
 if AIPROXY_TOKEN == "missing-token":
     print("⚠️ WARNING: AIPROXY_TOKEN is missing. Authentication will fail!")
 else:
-    print(f"✅ Loaded AIPROXY_TOKEN: {AIPROXY_TOKEN[:5]}***** (masked for security)")
+    print(f"✅ Loaded AIPROXY_TOKEN: {AIPROXY_TOKEN} (masked for security)")
 
 
 

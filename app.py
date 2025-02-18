@@ -954,44 +954,33 @@ tool_mapping = {
 
 
 
+
 @app.route('/run', methods=['GET', 'POST'])
 def run_task():
     if request.method == 'GET':
         task = request.args.get("task")  # Extract from URL query parameters
-    elif request.method == 'POST':
-        # ✅ Allow `task` from both JSON body and URL query
-        task = request.args.get("task")  # Extract from URL
-        if not task:
-            data = request.get_json(silent=True)
-            task = data.get("task") if data else None
+    else:  # POST request
+        data = request.get_json()
+        task = data.get("task") if data else request.args.get("task")  # Allow both JSON and query
 
     if not task:
         return jsonify({"error": "Task parameter is required"}), 400
 
-    # Simulating task execution (e.g., running Prettier formatting)
-    logging.debug(f"✅ Executing task: {task}")
-    return jsonify({"message": f"Task '{task}' started successfully"}), 200
+    return jsonify({"message": f"Task '{task}' started successfully"})
 
+# ✅ New endpoint to handle /read requests
 @app.route('/read', methods=['GET'])
 def read_file():
     file_path = request.args.get("path")
-    print(os.pwd(),file_path)
     if not file_path:
         return jsonify({"error": "File path is required"}), 400
     
-    logging.debug(f"🔍 Requested file path: {file_path}")
-
-    if not os.path.isfile(file_path):
-        return jsonify({"error": "File not found"}), 404
-
     try:
         with open(file_path, "r") as f:
             content = f.read()
-        return jsonify({"file": file_path, "content": content}), 200
-    except PermissionError:
-        return jsonify({"error": "Permission denied"}), 403
-    except Exception as e:
-        return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
+        return jsonify({"file": file_path, "content": content})
+    except FileNotFoundError:
+        return jsonify({"error": "File not found"}), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)

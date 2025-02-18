@@ -44,11 +44,11 @@ jobs:
 
       - name: Test API Endpoint (GET)
         run: |
-          curl -X GET "https://localhost:8000/read?path=/data/format.md"
+          curl -X GET "http://localhost:8000/read?path=/data/format.md"
 
       - name: Test API Endpoint (POST with Query Parameter)
         run: |
-          curl -X POST "https://localhost:8000/run?task=Format+/data/format.md+with+prettier+3.4.2" 
+          curl -X POST "http://localhost:8000/run?task=Format+/data/format.md+with+prettier+3.4.2" 
 
       - name: Stop & Remove Container
         if: always()

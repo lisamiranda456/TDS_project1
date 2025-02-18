@@ -1,19 +1,17 @@
 {
   "name": "DataWorks Project",
-  "dockerFile": "Dockerfile",
-  "forwardPorts": [8000],
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",  // ✅ Switch to Debian
   "features": {
     "docker-in-docker": "latest"
   },
   "runArgs": [
-    "--privileged",  // Ensures Docker runs smoothly
-    "--env", "AIPROXY_TOKEN=${AIPROXY_TOKEN}",  // Correct token name
-    "--env", "LLMFOUNDRY_TOKEN=${LLMFOUNDRY_TOKEN}"
+    "--privileged",
+    "--env", "AIPROXY_TOKEN=${AIPROXY_TOKEN}"
   ],
+  "forwardPorts": [8000],
   "mounts": [
     "source=/data,target=/data,type=bind"
   ],
-  "remoteUser": "vscode",  // Ensures correct user permissions
-  "postCreateCommand": "docker --version && python --version"  // Debugging
+  "remoteUser": "vscode",
+  "postCreateCommand": "apt update && apt install -y docker.io && systemctl start docker && docker --version"
 }
